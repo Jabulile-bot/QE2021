@@ -129,12 +129,11 @@ diversityresult(spp, index = "richness", method = "pooled")
 
 Question: Why are the 2 above giving us different values? Which one is correct?
 
-Answer: In this example, all columns have uniques species in them, so, the number
-of columns is indeed the number of species in the community, therefore, is the 
-correct answer for gamma diversity 
-diversityresult() suggests that the first column is the sites, so it 
-minuses it
-
+Answer: diversityresult() calculates species richness across all columns whereas
+ncol() counts the number of columns which basically equals the number of spp,
+but the problem with ncol() is that there could be a spp that is not present
+in any of the sites and ncol() will not be able to pick it up. 
+Therefore, diversityresult() is the correct one. 
 
 # END OF GAMMA DIVERSITY --------------------------------------------------
 
@@ -184,4 +183,22 @@ compared to the 58 sites combined decreases as you move towards east, i.e
 spp turnover/ absolute beta diversity decreases towards east, with increasing
 temperatures. In other words, there is higher heterogeneity between the 
 west and the east in terms of seaweeds.
+
+#Turnover and nestedness-resultant components
+
+# Decompose total Sørensen dissimilarity into turnover and nestedness-resultant
+#...componets:
+Y.core <- betapart.core(spp)
+Y.pair <- beta.pair(Y.core, index.family = "sor")
+
+# Let Y1 be the turnover component (beta-sim):
+Y1 <- as.matrix(Y.pair$beta.sim)
+
+# Let Y2 be the nestedness-resultant component (beta-sne):
+Y2 <- as.matrix(Y.pair$beta.sne)
+
+round(Y1[1:10, 1:20], 4) #round(x, 4) rounds the values to 4 digits, we want the
+#first 10 rows and first 2o columns
+round(Y2[1:10, 1:20], 4)
+
 
