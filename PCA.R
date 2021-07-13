@@ -159,6 +159,7 @@ biplot(env.pca, scaling = 2, main = "PCA scaling 2", choices = c(1, 2))
 #Now we create biplots using the cleanplot.pca() function that comes with 
 #Numerical Ecology in R book:
 
+
 # we need to load the function first from its R file:
 source("C:/QE2021/Quantitative_Ecology-main/Num_Ecol_R_book_ed1/cleanplot.pca.R")
 cleanplot.pca(env.pca, scaling = 1)
@@ -169,15 +170,15 @@ A. explain the ordination diagram with particular reference to the major
 patterns shown;
    
    -This biplot shows an elevation gradient from left to right, with the group of
-   sites 1-15 being at the bottom of the mountain, very cold environment, and
+   sites 1-15(top left) being at the bottom of the mountain, very cold environment, and
    exposed to the valley. These sites are an evergreen forest with high tree 
    diversity(TD) and tree species diversity(TSD), high secondary tree cover
    (T2C), and high herb cover(HC).
-   And then there is the group of sites 17-21 and 24-29 with highest tree DBH(SDDB)
+   And then there is the group of sites at bottom left with highest tree DBH(SDDB)
    and basal area(TBA), high foliage height diversity(FHD), high canopy cover(T1C) and 
    height(CH), and high total foliage volume(TFV), but with the lowest
    shrub cover(SC) and ground cover(GC).
-   Then we have the group of sites 34-44 at high elevation(ELE), exposed to
+   Then we have the group of sites in bottom right at high elevation(ELE), exposed to
    upper and steep slopes(EXP and SLP), with highest conifer percentage(CP).
 
 B. provide a mechanistic explanation for the existence of the patterns seen 
@@ -225,11 +226,8 @@ install.packages("ade4")
 library(ade4)
 env <- data(aravo)
 env <- as_tibble(aravo[["env"]]) 
+env <- env[, -c(3,5)]
 
-#the columns form and ZoogD are factors, since the columns are not that many,
-#I will change these to numeric
-env$Form <- as.numeric(as.character(env$Form))
-env$ZoogD <- as.numeric(env$ZoogD)
 summary(env)
 #Do PCA
 env.pca <- rda(env, scale = TRUE)
@@ -254,12 +252,18 @@ cleanplot.pca(env.pca, scaling = 2)
      patterns shown;
   
   -The mesotopography of the area causes a strong gradient of decreasing
-   snow-cover from left to right, with the group of sites 50-63, which are
-   at the lower slopes having the most snow-melting days (least snow cover).
-   The group of sites on the top left panel, which are on middle slopes have
-   the highest physical disturbance, in convex form, early snow-melting days.
-   The sites with steeper slopes are highly disturbed by marmots, and have less
-   snow-melting days so they are always covered by snow.
+   snow-cover from left to right, with the group of sites on the right, 
+   which are at the lower slopes having the most snow-melting days 
+   (least snow cover).
+   The group of sites on the right are on steeper slopes, have
+   the highest physical disturbance, in convex form environment, and
+   early snow-melting days.
+   It also has to be acknowledged that PCA 1 and 2 have a percentage of only 63%
+   on the structure of the environment, so we cannot be certain of the influence
+   of Snow(for PCA1) and Aspect(for PCA2). Physical disturbance(PCA3) takes the
+   variation percentage to 71%. So, the having PCA3 would be able to explain the
+   other portion well.
+   
    
    
 B. provide a mechanistic explanation for the existence of the patterns seen 
@@ -269,7 +273,7 @@ B. provide a mechanistic explanation for the existence of the patterns seen
    compared to the sites at the top of the mountain where it is colder.
    The middle slope sites receive intermediate snow-melting days as their 
    temperatures are intermediate, but experience high physical disturbance
-   because the area is concave that allows solifluction especially.
+   because the area is concave, making it easy for soil to slide down the slope.
    Then at the upper slopes there is a lot of snow cover, more zoological
    disturbance by marmots which prefer these cold conditions.
    
@@ -279,14 +283,12 @@ environmental variables, provide mechanistic reasons for how they came about.
 
      
 cor(env)
-  -There is high negative correlation between physical disturbance and form,
-   and that is because the sites there are very convex, middle sloped, making
-   these areas easily erodible.
   -The high negative correlation between snow-melting days and slope is because
    the steeper sites are higher up the mountain where it is cold and there is 
    less melting, so the more steeper, the less melting.
-  -The positive correlation between zoological disturbance and slope+aspect is
-   because these sites are at the top of the mountain, it is cold there and the
-   marmots love it there more than the other warm sites which are at the bottom
-   so, the steeper, the more zoological disturbance.
+  -There is high negative correlation between physical disturbance and snow.
+   The areas with high physical disturbance are at steeper slopes where 
+   snow-melting starts late so there is more snow cover, hence the negative
+   correlation.
+  
    
