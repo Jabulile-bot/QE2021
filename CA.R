@@ -175,7 +175,7 @@ high canopy cover
 
 
 # Alpine communities ------------------------------------------------------
-names(spe) <- paste("sp", 1:82, sep = "")
+
 
 library(ade4)
 spe <- data(aravo)
